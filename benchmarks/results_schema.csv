@@ -1,0 +1,1 @@
+timestamp,token_length,concurrency,max_batch_tokens,max_batch_requests,avg_latency_ms,p50_ms,p95_ms,p99_ms,rps,error_rate,timeout_rate,gpu0_util,gpu1_util,cpu_util,pass_fail,notes
