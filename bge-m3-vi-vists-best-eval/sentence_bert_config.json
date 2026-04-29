@@ -1,4 +1,5 @@
 {
+    "max_seq_length": 512,
     "transformer_task": "feature-extraction",
     "modality_config": {
         "text": {

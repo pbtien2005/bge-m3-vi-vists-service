@@ -46,6 +46,7 @@ services:
       start_period: 60s
 
   tei-gpu1:
+    profiles: ["multi-gpu"]
     image: ghcr.io/huggingface/text-embeddings-inference:1.9
     restart: unless-stopped
     environment:
@@ -101,7 +102,7 @@ services:
       TOKENIZER_PATH: "/app/model-tokenizer/tokenizer.json"
       MAX_INPUT_TOKENS: "${MAX_INPUT_TOKENS:-128}"
       MAX_BODY_BYTES: "${MAX_BODY_BYTES:-131072}"
-      UPSTREAM_URLS: "http://tei-gpu0:80,http://tei-gpu1:80"
+      UPSTREAM_URLS: "http://tei-gpu0:80"
       UPSTREAM_TIMEOUT_MS: "${UPSTREAM_TIMEOUT_MS:-300}"
       RATE_LIMIT_RPM: "${RATE_LIMIT_RPM:-6000}"
       RATE_LIMIT_BURST: "${RATE_LIMIT_BURST:-200}"
@@ -114,8 +115,6 @@ services:
       - "8000:8000"
     depends_on:
       tei-gpu0:
-        condition: service_started
-      tei-gpu1:
         condition: service_started
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=2).read()\""]
@@ -136,4 +135,3 @@ services:
     depends_on:
       - gateway
       - tei-gpu0
-      - tei-gpu1

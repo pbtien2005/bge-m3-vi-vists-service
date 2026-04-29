@@ -1,0 +1,15 @@
+services:
+  gateway:
+    environment:
+      UPSTREAM_URLS: "http://tei-gpu0:80,http://tei-gpu1:80"
+    depends_on:
+      tei-gpu0:
+        condition: service_started
+      tei-gpu1:
+        condition: service_started
+
+  prometheus:
+    depends_on:
+      - gateway
+      - tei-gpu0
+      - tei-gpu1

@@ -21,7 +21,7 @@ Client
       -> /healthz liveness, /readyz upstream readiness
       -> Prometheus metrics + structured logs
   -> TEI worker 0 on GPU0, internal http://tei-gpu0:80
-  -> TEI worker 1 on GPU1, internal http://tei-gpu1:80
+  -> optional TEI worker 1 on GPU1, internal http://tei-gpu1:80
       -> tokenization
       -> dynamic batching
       -> FP16 BGE-M3 inference
@@ -86,7 +86,7 @@ Prerequisites:
 Docker with Compose v2
 NVIDIA driver compatible with CUDA 12.2+
 NVIDIA Container Toolkit
-2x NVIDIA A30 GPUs
+1x NVIDIA GPU for the default compose path; 2x NVIDIA GPUs for the multi-GPU override
 network access to pull ghcr.io/huggingface/text-embeddings-inference and the Hugging Face model
 ```
 
@@ -101,6 +101,12 @@ Start:
 
 ```bash
 scripts/start.sh
+```
+
+For a 2-GPU deployment:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.multi-gpu.yml --profile multi-gpu up -d --build
 ```
 
 Gateway:
